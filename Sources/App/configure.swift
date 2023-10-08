@@ -1,6 +1,6 @@
 import NIOSSL
 import Fluent
-import FluentSQLiteDriver
+import FluentPostgresDriver
 import Vapor
 
 // configures your application
@@ -17,6 +17,7 @@ public func configure(_ app: Application) async throws {
         tls: .prefer(try .init(configuration: .clientDefault)))
     ), as: .psql)
     app.migrations.add(CreateAcronym())
+    app.migrations.add(CreateUser())
 
     app.logger.logLevel = .debug
 
