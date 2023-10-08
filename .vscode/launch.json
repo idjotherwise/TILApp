@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "sourceLanguages": ["swift"],
+      "name": "Debug App",
+      "program": "${workspaceFolder:TILApp}/.build/debug/App",
+      "args": [],
+      "cwd": "${workspaceFolder:TILApp}",
+      "preLaunchTask": "swift: Build Debug App"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "sourceLanguages": ["swift"],
+      "name": "Release App",
+      "program": "${workspaceFolder:TILApp}/.build/release/App",
+      "args": [],
+      "cwd": "${workspaceFolder:TILApp}",
+      "preLaunchTask": "swift: Build Release App"
+    }
+  ]
+}

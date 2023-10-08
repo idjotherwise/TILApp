@@ -1,6 +1,6 @@
 import NIOSSL
 import Fluent
-import FluentPostgresDriver
+import FluentSQLiteDriver
 import Vapor
 
 // configures your application
@@ -16,8 +16,11 @@ public func configure(_ app: Application) async throws {
         database: Environment.get("DATABASE_NAME") ?? "vapor_database",
         tls: .prefer(try .init(configuration: .clientDefault)))
     ), as: .psql)
+    app.migrations.add(CreateAcronym())
 
-    app.migrations.add(CreateTodo())
+    app.logger.logLevel = .debug
+
+    try app.autoMigrate().wait()
 
     // register routes
     try routes(app)

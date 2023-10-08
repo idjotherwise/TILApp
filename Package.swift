@@ -1,10 +1,10 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.7.1
 import PackageDescription
 
 let package = Package(
     name: "TILApp",
     platforms: [
-       .macOS(.v13)
+       .macOS(.v12)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
