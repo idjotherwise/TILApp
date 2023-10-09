@@ -19,10 +19,11 @@ public func configure(_ app: Application) async throws {
 	app.migrations.add(CreateUser())
 	app.migrations.add(CreateAcronym())
 	app.migrations.add(CreateCategory())
+	app.migrations.add(CreateAcronymCategoryPivot())
 	
 	app.logger.logLevel = .debug
 	
-	try app.autoMigrate().wait()
+	try await app.autoMigrate().get()
 	
 	// register routes
 	try routes(app)

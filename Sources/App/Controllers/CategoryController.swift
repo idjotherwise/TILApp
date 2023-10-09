@@ -12,17 +12,18 @@ struct CategoriesController: RouteCollection {
 		// categoryRoutes.get("search", use: searchHandler)
 		// categoryRoutes.get("first", use: getFirstHandler)
 		// categoryRoutes.get("sorted", use: sortedHandler)
-		// categoryRoutes.get(":categoryID", "acronyms", use: getAcronymsHandler)
+		 categoryRoutes.get(":categoryID", "acronyms", use: getAcronymsHandler)
 		
 	}
 	
-	// func getAcronymsHandler(_ req: Request) -> EventLoopFuture<[Acronym]> {
-	//   Category.find(req.parameters.get("categoryID"), on: req.db)
-	//     .unwrap(or: Abort(.notFound))
-	//     .flatMap { category in
-	//       category.$acronyms.get(on: req.db)
-	//     }
-	// }
+	 func getAcronymsHandler(_ req: Request) -> EventLoopFuture<[Acronym]> {
+	   Category.find(req.parameters.get("categoryID"), on: req.db)
+	     .unwrap(or: Abort(.notFound))
+	     .flatMap { category in
+	       category.$acronyms.get(on: req.db)
+	     }
+	 }
+
 	
 	func createHandler(_ req: Request) throws -> EventLoopFuture<Category> {
 		let category = try req.content.decode(Category.self)
