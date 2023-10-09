@@ -1,38 +1,38 @@
 import Vapor
 import Fluent
 
-struct UsersController: RouteCollection {
+struct CategoriesController: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
-    let userRoutes = routes.grouped("api", "users")
-    userRoutes.get(use: getAllHandler)
-    userRoutes.post(use: createHandler)
-    userRoutes.get(":userID", use: getHandler)
-    // userRoutes.put(":userID", use: updateHandler)
-    // userRoutes.delete(":userID", use: deleteHandler)
-    // userRoutes.get("search", use: searchHandler)
-    // userRoutes.get("first", use: getFirstHandler)
-    // userRoutes.get("sorted", use: sortedHandler)
-    userRoutes.get(":userID", "acronyms", use: getAcronymsHandler)
+    let userRoutes = routes.grouped("api", "categories")
+    categoryRoutes.post(use: createHandler)
+    categoryRoutes.get(use: getAllHandler)
+    categoryRoutes.get(":categoryID", use: getHandler)
+    // categoryRoutes.put(":categoryID", use: updateHandler)
+    // categoryRoutes.delete(":categoryID", use: deleteHandler)
+    // categoryRoutes.get("search", use: searchHandler)
+    // categoryRoutes.get("first", use: getFirstHandler)
+    // categoryRoutes.get("sorted", use: sortedHandler)
+    // categoryRoutes.get(":categoryID", "acronyms", use: getAcronymsHandler)
     
   }
 
-  func getAcronymsHandler(_ req: Request) -> EventLoopFuture<[Acronym]> {
-    User.find(req.parameters.get("userID"), on: req.db)
-      .unwrap(or: Abort(.notFound))
-      .flatMap { user in 
-        user.$acronyms.get(on: req.db)
-      }
-  }
+  // func getAcronymsHandler(_ req: Request) -> EventLoopFuture<[Acronym]> {
+  //   Category.find(req.parameters.get("categoryID"), on: req.db)
+  //     .unwrap(or: Abort(.notFound))
+  //     .flatMap { category in 
+  //       category.$acronyms.get(on: req.db)
+  //     }
+  // }
 
-  func createHandler(_ req: Request) throws -> EventLoopFuture<User> {
-    let user = try req.content.decode(User.self)
-    return user.save(on: req.db).map { user }
+  func createHandler(_ req: Request) throws -> EventLoopFuture<Category> {
+    let category = try req.content.decode(Category.self)
+    return category.save(on: req.db).map { category }
   }
-  func getAllHandler(_ req: Request) -> EventLoopFuture<[User]> {
-    User.query(on: req.db).all()
+  func getAllHandler(_ req: Request) -> EventLoopFuture<[Category]> {
+    Category.query(on: req.db).all()
   }
-  func getHandler(_ req: Request) -> EventLoopFuture<User> {
-    User.find(req.parameters.get("userID"), on: req.db).unwrap(or: Abort(.notFound))
+  func getHandler(_ req: Request) -> EventLoopFuture<Category> {
+    Category.find(req.parameters.get("categoryID"), on: req.db).unwrap(or: Abort(.notFound))
   }
   // func getFirstHandler(_ req: Request) -> EventLoopFuture<Acronym> {
   //   Acronym.query(on: req.db).first().unwrap(or: Abort(.notFound))
