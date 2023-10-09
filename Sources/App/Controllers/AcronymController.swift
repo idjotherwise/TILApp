@@ -16,7 +16,12 @@ struct AcronymsController: RouteCollection {
   }
 
   func createHandler(_ req: Request) throws -> EventLoopFuture<Acronym> {
-    let acronym = try req.content.decode(Acronym.self)
+    let data = try req.content.decode(CreateAcronymData.self)
+    let acronym = Acronym(
+      short: data.short,
+      long: data.long,
+      userID: data.userID
+    )
     return acronym.save(on: req.db).map { acronym }
   }
   func getAllHandler(_ req: Request) -> EventLoopFuture<[Acronym]> {
@@ -61,4 +66,10 @@ struct AcronymsController: RouteCollection {
           or.filter(\.$long == searchTerm)
         }.all()
     }
+  }
+
+  struct CreateAcronymData: Content {
+    let short: String
+    let long: String
+    let userID: UUID
   }
